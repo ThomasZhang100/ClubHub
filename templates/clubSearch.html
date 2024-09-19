@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Hub PHS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/clubSearch.css">
+</head>
+<body class="pt-5">
+    <script type="text/javascript">
+        console.log("{{clubDict|safe}}");
+    </script>
+    <img class="bg-image" src="{{url_for('static', filename='images/PHS.jpeg')}}" alt="Bg image">
+    <nav class="navbar navbar-expand bg-info fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">Club Hub - PHS</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/search" class="nav-link active">Find Clubs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/leader" class="nav-link">Leader Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row mt-4">
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="filter" placeholder="What clubs are you looking for?">
+                        <div class="input-group-text"><i class="fa fa-search"></i></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <div class="row mt-4">
+            <div class="col pt-0">
+                <div class="tagtitle">
+                    Selected tags:
+                </div>
+                <div class="chip lightblue tag">
+                    Martha
+                    <i class="fa fa-times close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col pt-0">
+                <div class="tagtitle">
+                    Add search tags:
+                </div>
+                <div class="chip pink tag">
+                    Martha
+                    <i class="fa-solid fa-plus close"></i>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <ul id="clubList" class="clubList">
+                {% for club in clubs %}
+                    <li data-id="{{ club.id }}">
+                        <a href="#" class="clubBox border text-light" data-bs-toggle="modal" data-bs-target="#clubPopup">{{ club.clubname | safe }}</a>
+                    </li>
+                {% endfor %}
+              </ul>
+        </div>
+
+  <div class="modal fade" id="clubPopup" tabindex="-1" aria-labelledby="clubPopupLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title club-title" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body col">
+                <img src="../static/images/GDPgraph.png" id="club-image"></img>
+                <h4>Club Mission:</h3>
+                <p id="club-mission"></h4>
+                <h4>Club Description:</h3>
+                <p id="club-description"></h4>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="/search" enctype="multipart/form-data">
+                    <input type="hidden" id="clubIDSub" name="clubID" value="id">
+                    <input type="hidden" id="isFollow" name="isFollow" value="">
+                    <input type="submit" id="submitButton" value="Sign up!" class="btn"/>
+                    <small id="buttonDesc">Club will be added to your calendar</small>
+                </form>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <script type="text/javascript">
+        var clubs = JSON.parse('{{ clubDict | safe }}');
+        var staticURL = "{{url_for('static', filename='images')}}"
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../static/js/clubSearch.js"></script>
+</body>
+</html>

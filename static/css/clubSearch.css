@@ -1,0 +1,86 @@
+.clubList{
+    list-style: none;
+    padding-left:0;
+}
+
+.clubBox{ 
+    margin: 0.3rem 1rem 0;
+    border-radius:6px; 
+    padding: 0.3rem;
+    font-size: 1.3rem;
+    color:#463f3f;
+    display:block;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .clubBox:hover {
+    background-color: lightgray;
+    opacity: 0.8;
+ }
+
+  #club-image{
+    float:right;
+    width: 200px;
+    height: 160px;
+    object-fit: cover;
+    margin-left:1em;
+    margin-bottom:1em;
+  }
+
+  .bg-image{
+    height: 100vh;
+    width: 100vw;
+    object-fit: cover;
+    filter: brightness(0.7);
+    z-index: -100;
+    position: fixed;
+ }
+
+ .chip {
+  display: inline-block;
+  height: 32px;
+  padding: 0 12px;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 32px;
+  cursor: pointer;
+  border-radius: 16px;
+  transition: all .3s linear;
+  position: relative;
+  overflow: hidden;
+  color: #fff
+}
+
+.lightblue{
+  background-color: #4db6ac;
+}
+
+.pink{
+  background-color: #f06292
+}
+
+.close{
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+  float: right;
+  padding-left: 8px;
+  font-size: 16px;
+  line-height: 32px;
+  cursor: pointer;
+  transition: all .1s linear;
+  font-weight: 900;
+}
+
+.tagtitle{
+  display: inline-block;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  line-height: 32px;
+  position: relative;
+  overflow: hidden;
+  color: #fff
+}

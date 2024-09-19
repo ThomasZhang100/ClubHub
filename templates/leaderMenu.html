@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Hub PHS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/leaderMenu.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body class="pt-5">
+    <img class="bg-image" src="{{url_for('static', filename='images/PHS.jpeg')}}" alt="Bg image">
+    <nav class="navbar navbar-expand bg-info fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">Club Hub - PHS</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/search" class="nav-link">Find Clubs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/leader" class="nav-link active">Leader Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row mt-4 justify-content-center">
+            <div class="col-auto">
+                <h1 class="text-light">Leader Menu</h1>
+            </div>
+        </div>
+        <hr>
+        {% for club in clubs %}
+        <div class="row bordered clubRow mt-2">
+            <div class="col-auto">
+                <h4 class="text-light">{{ club.clubname }}</h3>
+            </div>
+            <div class="col-md d-md-block d-none"></div>
+            <div class="col-auto">
+                <a href="#" class="btn btn-success editor-button" data-bs-toggle="modal" data-bs-target="#clubEditor" data-id="{{ club.id }}">Edit</a>
+            </div>
+            <div class="col-auto">
+                <a href="#" class="btn btn-primary scheduler-button" data-bs-toggle="modal" data-bs-target="#scheduler" data-id="{{ club.id }}">Schedule Meeting</a>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="row justify-content-center mt-2 bordered clubButton">
+            <a href="#" class="btn fs-3 text-light" data-bs-toggle="modal" data-bs-target="#clubMaker">New Club +</a>
+        </div>
+
+  <div class="modal fade" id="clubEditor" tabindex="-1" aria-labelledby="clubEditorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editorModalLabel">Web Development Club</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="/leader" enctype="multipart/form-data">
+            <input type="hidden" name="formType" value="editor">
+            <input type="hidden" id="clubIDEdit" name="clubID" value="id">
+            <div class="modal-body clubInfo">
+                <div class="box">
+                    <div class="uploadedImg" id="imgClubEditor"></div>
+                    <div class="uploadArea">
+                        <label class="uploadButton">
+                            <input type="file" name="upload" id="upload-edit" class="uploader">
+                            <h1>+</h1>
+                        </label>
+                    </div>
+                </div>
+                <div class="textEntry">
+                    <div class="textfields">
+                        <fieldset><input type="text" name="club-name" id="club-name-edit" placeholder="Club Name Here" value="Web Development Club" required /></fieldset>
+                        <fieldset><textarea placeholder="Club Mission Here" name="club-mission" id="club-name-mission" required>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut doloremque saepe mollitia excepturi, nisi eum commodi aperiam id corrupti reiciendis quam soluta et? Voluptate atque ad nobis tempore, delectus accusantium.</textarea></fieldset>
+                        <fieldset><textarea placeholder="Club Description Here" name="club-description" id="club-name-description" required>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut doloremque saepe mollitia excepturi, nisi eum commodi aperiam id corrupti reiciendis quam soluta et? Voluptate atque ad nobis tempore, delectus accusantium.</textarea></fieldset>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col pt-0">
+                        <div class="tagtitle">
+                            Selected tags:
+                        </div>
+                        <div class="chip lightblue tag">
+                            Martha
+                            <i class="fa fa-times close"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col pt-0">
+                        <div class="tagtitle">
+                            Add tags that describe your club:
+                        </div>
+                        <div class="chip pink tag">
+                            Martha
+                            <i class="fa-solid fa-plus close"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Save" class="btn btn-primary"/>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+    </div>
+    <div class="modal fade" id="scheduler" tabindex="-1" aria-labelledby="schedulerLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="schedulerModalLabel">Web Development Club</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="/leader" enctype="multipart/form-data">
+                <input type="hidden" name="formType" value="scheduler">
+                <input type="hidden" id="clubIDSchedule" name="clubID" value="id">
+                <div class="modal-body">
+                    <input type="date" name="date" class="addPad" required>
+                    <input type="time" name="time" class="addPad" required>
+                    <div class="textEntry">
+                        <div class="textfields">
+                            <fieldset><input type="text" name="meeting-location" id="meeting-location" placeholder="Meeting location here" required /></fieldset>
+                            <fieldset><input type="text" name="meeting-subject" id="meeting-subject" placeholder="Meeting subject here" required /></fieldset>
+                            <fieldset><textarea placeholder="Meeting description here" name="meeting-description" required></textarea></fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Schedule Meeting" class="btn btn-primary"/>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="modal fade" id="clubMaker" tabindex="-1" aria-labelledby="clubMakerLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="createrModalLabel">New Club</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="/leader" enctype="multipart/form-data">
+                    <input type="hidden" name="formType" value="creater">
+                    <div class="modal-body clubInfo">
+                        <div class="box">
+                            <div class="uploadedImg" id="imgClubMaker"></div>
+                            <div class="uploadArea">
+                                <label class="uploadButton">
+                                    <input type="file" name="upload" id="upload-create" class="uploader">
+                                    <h1>+</h1>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="textEntry">
+                            <div class="textfields">
+                                <fieldset><input type="text" name="club-name" id="club-name-create" placeholder="Club Name Here" required /></fieldset>
+                                <fieldset><textarea placeholder="Club Mission Here" name="club-mission" required></textarea></fieldset>
+                                <fieldset><textarea placeholder="Club Description Here" name="club-description" required></textarea></fieldset>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col pt-0">
+                                <div class="tagtitle">
+                                    Selected tags:
+                                </div>
+                                <div class="chip lightblue tag">
+                                    Martha
+                                    <i class="fa fa-times close"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col pt-0">
+                                <div class="tagtitle">
+                                    Add tags that describe your club:
+                                </div>
+                                <div class="chip pink tag">
+                                    Martha
+                                    <i class="fa-solid fa-plus close"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" value="Create" class="btn btn-primary"/>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+            </div>
+    <script type="text/javascript">
+        var clubs = JSON.parse('{{ clubDict | safe}}');
+        var staticURL = "{{url_for('static', filename='images')}}"
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../static/js/createClub.js"></script>
+</body>
+</html>

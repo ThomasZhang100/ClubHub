@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Hub PHS</title>
+    <link rel="stylesheet" href="../static/css/testMain.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body class="pt-5">
+    <img class="bg-image" src="{{url_for('static', filename='images/PHS.jpeg')}}" alt="Bg image">
+    <nav class="navbar navbar-expand bg-info fixed-top">
+        <div class="container">
+            <a href="#" class="navbar-brand">Club Hub - PHS</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/search" class="nav-link">Find Clubs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/leader" class="nav-link">Leader Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% for i in range(-31,32) %}
+    <div class="container calendar" id="{{i}}">
+        <div class="row mt-4 justify-content-center align-items-center gy-3">
+            <div class="col-auto">
+                <button class="btn btn-outline-dark text-light today">Today</button>
+            </div>
+            <div class="col-sm col-12">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <a href="#" class="btn back text-light">‹</a>
+                    </div>
+                    <div class="col-auto">
+                        <h2 class="title text-light">{{ eventDict[i].datestring }}</h2>
+                    </div>
+                    <div class="col-auto">
+                        <a href="#" class="btn forward text-light">›</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% for event in eventDict[i].events %}
+        <div class="row mt-4 py-2 border border-light rounded eventRow" data-id="{{ event.id }}">
+            <div class="col-3 outline-right border-light">
+                <h4 class="text-info">{{ event.datetime.strftime("%I:%M") }}</h2>
+                <h4 class="text-light">{{ event.location }}</h2>
+            </div>
+            <div class="col-9">
+                <h1 class="text-light">{{ event.club.clubname }}</h2>
+                <h2 class="text-info">{{ event.subject }}</h2>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <div class="modal fade" id="eventPopup" tabindex="-1" aria-labelledby="eventPopupLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title club-title" id="exampleModalLabel"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    <h4>Event Location:</h3>
+                    <p id="event-location"></h4>
+                    <h4>Event Subject:</h3>
+                    <p id="event-subject"></h4>
+                    <h4>Event Description:</h3>
+                    <p id="event-description"></h4>
+                </div>
+          </div>
+        </div>
+      </div>
+    <script type="text/javascript">
+        var eventDictJS = JSON.parse('{{ eDictjs | safe}}');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../static/js/main.js"></script>
+</body>
+</html>
